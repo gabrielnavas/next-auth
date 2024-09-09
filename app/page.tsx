@@ -59,11 +59,6 @@ export default async function Home() {
           <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
             Tech Stack
           </h2>
-          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            Este projeto traz várias bibliotecas em um aplicativo moderno, com
-            recursos atualizados do Next.js 13 e utilizando a melhor "não"
-            biblioteca do momento shadcn/ui.
-          </p>
         </div>
         <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
