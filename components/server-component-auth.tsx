@@ -8,8 +8,8 @@ const ServerComponentAuth: FC = async () => {
   return (
     <>
       {user && (
-        <div className="bg-slate-50 border gap-2 h-60 max-w-md overflow-scroll ">
-          <h2>Server Component</h2>
+        <div className="bg-slate-700 border gap-2 h-60 max-w-md overflow-scroll text-white p-4">
+          <h2 className="font-bold">Server Component</h2>
           {JSON.stringify(user)}
         </div>
       )}
