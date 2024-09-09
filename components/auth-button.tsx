@@ -5,11 +5,8 @@ import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 
 export default function AuthButton({ page }: { page: string }) {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const isAuthenticated = status === "authenticated";
-
-  console.log(session);
-  
 
   return (
     <>
