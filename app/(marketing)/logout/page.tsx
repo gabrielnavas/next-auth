@@ -17,7 +17,7 @@ const Logout: FC<ILogoutProps> = (props) => {
     if (status === 'unauthenticated') {
       route.push('/login')
     }
-  }, [status])
+  }, [route, status])
 
   return (
     <div className="w-full h-dvh flex flex-col justify-center align-middle">
