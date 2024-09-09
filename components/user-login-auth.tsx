@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 
-import { FC, useState } from "react";
+import React, { FC, useState } from "react";
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -86,6 +86,10 @@ export const UserLoginAuth: FC<IUserLoginAuthProps> = ({
     }
   }
 
+  async function handleLoginWithGithub() {
+    await signIn('github', {redirect: false, callbackUrl: '/'})
+  }
+
   function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
     setData(prev => {
       return {
@@ -138,10 +142,27 @@ export const UserLoginAuth: FC<IUserLoginAuthProps> = ({
             {isLoading && (
               <Icons.LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
             )}
+            <Icons.LogIn size={15} className="me-2" />
             Login
           </Button>
         </div>
       </form>
+      <div className="flex items-center justify-center">
+        <div className="border-t border-gray-300 my-1 w-[25%]"></div>
+        <span className="text-xs mx-2 text-gray-500">{' '}OR CONTINUE WITH{' '}</span>
+        <div className="border-t border-gray-300 my-1 w-[25%]"></div>
+      </div>
+      <Button
+        variant="outline"
+        onClick={handleLoginWithGithub}
+        disabled={isLoading}
+        className="w-[100%]">
+        {isLoading && (
+          <Icons.LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+        )}
+        <Icons.GitBranch size={15} className="me-2" />
+        Github
+      </Button>
     </div>
   );
 }

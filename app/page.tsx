@@ -13,8 +13,8 @@ export default async function Home() {
 
   return (
     <>
-      <section className="space-y-2 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-12">
-        <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
+      <section className="flex flex-col align-middle space-y-2 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-12">
+        <div className="container flex w-[100%] flex-col items-center gap-4 text-center">
           <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
             O melhor de Next.js 13, Next-Auth, Prisma e Shadcn-ui.
           </h1>

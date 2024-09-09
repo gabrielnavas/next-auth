@@ -149,7 +149,8 @@ export const UserRegisterAuth: FC<IUserRegisterAuthProps> = ({
             {isLoading && (
               <Icons.LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Login
+            <Icons.ArrowUpFromLine size={15} className="me-2" />
+            Register
           </Button>
         </div>
       </form>
