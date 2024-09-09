@@ -5,6 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/sessions";
 import { cn } from "@/lib/utils";
 import ClientComponentAuth from "@/components/client-component-auth";
+import ServerComponentAuth from "@/components/server-component-auth";
 
 
 export default async function Home() {
@@ -45,9 +46,8 @@ export default async function Home() {
         </div>
         <div className="flex items-center justify-center">
           <div className="flex flex-col items-center justify-between sm:flex-row">
-            {/* Components */}
             <ClientComponentAuth />
-            {/* <ServerComponentAuth /> */}
+            <ServerComponentAuth />
           </div>
         </div>
       </section>
