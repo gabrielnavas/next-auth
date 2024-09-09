@@ -4,11 +4,13 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 
 import {PrismaAdapter} from '@auth/prisma-adapter'
-import { db } from "./db";
+import { db as prisma } from "./db";
+
+import bcrypt from 'bcrypt';
 
 export const authOptions: NextAuthOptions = {
   // @ts-ignore
-  adapter: PrismaAdapter(db as any),
+  adapter: PrismaAdapter(prisma as any),
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENTID as string,
@@ -22,9 +24,25 @@ export const authOptions: NextAuthOptions = {
         username: { label: "Username", type: "Username" },
       },
       async authorize(credentials, req): Promise<any> {
-        const user = { email: 'test@email.com', password: '12345678', name: 'testname' ,username: 'test' };
-        console.log("authorized method", credentials);
-        
+        if(!credentials?.email || !credentials.password || credentials.username) {
+          throw new Error('missing email, password or username');
+        }
+
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials.email,
+          }
+        })
+
+        if(!user || !user.hashedPassword) {
+          throw new Error('E-mail/Password is incorrect');
+        }
+
+        const matchPasswords = await bcrypt.compareSync(credentials.password, user.hashedPassword);
+        if(!matchPasswords) {
+          throw new Error('E-mail/Password is incorrect');
+        }
+
         return user;
       },
     })

@@ -28,8 +28,6 @@ export async function POST(request: NextRequest) {
     }, { status: 400 });
   }
 
-  console.log(name, email, password);
-
   const hashedPassword = await bcrypt.hashSync(password, bcrypt.genSaltSync());
 
   const user = await prisma.user.create({

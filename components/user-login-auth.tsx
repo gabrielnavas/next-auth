@@ -10,6 +10,9 @@ import { Button } from "@/components/ui/button";
 import { Icons } from "./icons";
 
 import { signIn } from 'next-auth/react'
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "./ui/toast";
+import { useRouter } from "next/navigation";
 
 interface IUserLoginAuthProps extends React.HTMLAttributes<HTMLDivElement> { }
 
@@ -29,26 +32,58 @@ export const UserLoginAuth: FC<IUserLoginAuthProps> = ({
 }: IUserLoginAuthProps) => {
 
   const [data, setData] = useState<IUser>({ ...defaultData })
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
+
+  const { toast } = useToast()
+  const route = useRouter();
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(true);
-    // setTimeout(() => {
-    //   console.log(data);
-    //   setData({ ...defaultData })
-    //   setIsLoading(false);
-    // }, 2500)
 
-    await signIn<'credentials'>('credentials', {
-      ...data,
-      redirect: false,
-    })
-
-    console.log(data);
-    setData({ ...defaultData })
-    setIsLoading(false);
+    try {
+      const result = await signIn<'credentials'>('credentials', {
+        ...data,
+        redirect: false,
+      })
+      if (!result?.ok) {
+        if (result?.error) {
+          setMessage(result?.error)
+        }
+        toast({
+          title: "Ooops!",
+          description: "A problem occurred!",
+          variant: 'destructive',
+          action: (
+            <ToastAction altText="Try again">Try again</ToastAction>
+          )
+        })
+      } else {
+        toast({
+          title: "Welcome!",
+          description: "Enjoy!!",
+        })
+        setData({ ...defaultData })
+        setMessage('')
+        route.push("/")
+      }
+    } catch (err) {
+      if (err) {
+        setMessage('Ooops! Call the admin!')
+      }
+      toast({
+        title: "Ooops!",
+        description: "A problem occurred!",
+        variant: 'destructive',
+        action: (
+          <ToastAction altText="Try again">Try again</ToastAction>
+        )
+      })
+      alert(err)
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -90,6 +125,11 @@ export const UserLoginAuth: FC<IUserLoginAuthProps> = ({
               value={data.password}
               onChange={handleChange} />
           </div>
+          {message.length > 0 && (
+            <div className="mb-2 text-red-500 text-bold font-sm bg-red-100 p-2 rounded-md">
+              {message}
+            </div>
+          )}
         </div>
         <div>
           <Button
